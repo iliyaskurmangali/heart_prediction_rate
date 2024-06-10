@@ -19,18 +19,26 @@ Each model is trained on the training set and evaluated on the validation set us
 The results of the model evaluation are printed, showing the precision score for each model on the validation set.
 
 Logistic Regression accuracy: 0.76
+
 K-Nearest Neighbors accuracy: 0.84
+
 Support Vector Machine accuracy: 0.80
+
 Decision Tree accuracy: 0.60
+
 Random Forest accuracy: 0.76
+
 Gradient Boosting accuracy: 0.80
+
 AdaBoost accuracy: 0.72
+
 Gaussian Naive Bayes accuracy: 0.88
+
 XGBoost accuracy: 0.76
 
 
 Hyperparameter Tuning
-Based on the initial evaluation, the Gaussian Naive Bayes model was found to be the best performer. Hyperparameter tuning is performed on this model using GridSearchCV from scikit-learn. The parameter grid includes different values for the var_smoothing parameter of the Gaussian Naive Bayes model.
+Based on the above evaluation, the Gaussian Naive Bayes model was found to be the best performer. Hyperparameter tuning is performed on this model using GridSearchCV from scikit-learn. The parameter grid includes different values for the var_smoothing parameter of the Gaussian Naive Bayes model.
 The grid search is performed using 5-fold cross-validation, and the best hyperparameters are printed.
 {'gaussiannb__var_smoothing': 1e-09}
 
