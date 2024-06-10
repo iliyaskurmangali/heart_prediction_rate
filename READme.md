@@ -1,6 +1,7 @@
 Heart Disease Prediction System
 
-#Introduction
+Introduction
+
 The CardioHealth Risk Assessment Dataset provides a comprehensive collection of medical and demographic data, facilitating the development and validation of machine learning models for heart disease prediction. This project aims to leverage various classification algorithms to accurately predict the presence of heart disease based on patient attributes and health indicators.
 
 Dataset Overview
