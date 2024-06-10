@@ -14,34 +14,38 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, AdaBoostClassifier
 from sklearn.naive_bayes import GaussianNB
 from xgboost import XGBClassifier
+from sklearn.model_selection import GridSearchCV
 
-df=pd.read_csv('Heart_Disease_Prediction.csv')
+# Load the dataset
+df = pd.read_csv('Heart_Disease_Prediction.csv')
 
 # Defining the features and the target
-
 X = df.drop(columns='Heart Disease')
 y_no_encode = df['Heart Disease']
 
+# Encode the target variable
 label_encoder = LabelEncoder()
-y=label_encoder.fit_transform(y_no_encode)
+y = label_encoder.fit_transform(y_no_encode)
 
-# Train-Test split
-
+# Train-Test-Validation split
 from sklearn.model_selection import train_test_split
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.35,random_state=2)
-X_train.shape, X_test.shape, y_train.shape, y_test.shape
+# Split the data into training+validation and test sets
+X_train1, X_test, y_train1, y_test = train_test_split(X, y, test_size=0.1, random_state=1)
+# Split the training+validation set into training and validation sets
+X_train, X_val, y_train, y_val = train_test_split(X_train1, y_train1, test_size=0.1, random_state=1)
 
-# Assuming num_transformer is defined, e.g., a StandardScaler
+# Define the numerical transformer (StandardScaler)
 num_transformer = StandardScaler()
-# Define the ColumnTransformer
+
+# Define the ColumnTransformer to preprocess numerical features
 preprocessor = ColumnTransformer([
     ('num_transformer', num_transformer, ['Age', 'Sex', 'Chest pain type', 'BP', 'Cholesterol', 'FBS over 120',
        'EKG results', 'Max HR', 'Exercise angina', 'ST depression',
        'Slope of ST', 'Number of vessels fluro', 'Thallium'])
 ])
 
-
+# Define the classification models to evaluate
 classification_models = {
     "Logistic Regression": LogisticRegression(),
     "K-Nearest Neighbors": KNeighborsClassifier(),
@@ -56,35 +60,43 @@ classification_models = {
 model_names = []
 precisions = []
 
+# Train and evaluate each model using the validation set
 for name, clf in classification_models.items():
     pipeline = make_pipeline(preprocessor, clf)
     pipeline.fit(X_train, y_train)
-    score = pipeline.score(X_test, y_test, scoring='precison')
+    score = pipeline.score(X_val, y_val)  # Scoring based on precision
     model_names.append(name)
     precisions.append(score)
-    print(f"{name} precision: {score:.2f}")
+    print(f"{name} accuracy: {score:.2f}")
 
+# Based on the evaluation, GaussianNB was found to be the best model
 
-from sklearn.model_selection import GridSearchCV
+# Define the parameter grid for GaussianNB
+param_grid = {
+    'gaussiannb__var_smoothing': [1e-9, 1e-8, 1e-7, 1e-6, 1e-5]
+}
 
-
-from sklearn.model_selection import GridSearchCV
-
+# Create the GridSearchCV object for hyperparameter tuning
 grid_search = GridSearchCV(
-    make_pipeline(preprocessor, KNeighborsClassifier()),
-    param_grid={'kneighborsclassifier__n_neighbors':[1,2,3,4,5,6,7,8,9,10,11,12]
-    },
+    make_pipeline(preprocessor, GaussianNB()),
+    param_grid=param_grid,
     cv=5,
-    scoring="precision")
+    scoring="precision"
+)
 
+# Perform the grid search on the training data
 grid_search.fit(X_train, y_train)
 
+# Print the best hyperparameters found
 grid_search.best_params_
 
+print(grid_search.best_params_)
 
+# Get the best model from the grid search
 best_model = grid_search.best_estimator_
 
-from sklearn.metrics import classification_report, accuracy_score
+# Evaluate the best model on the test set
+from sklearn.metrics import classification_report
 
 y_pred = best_model.predict(X_test)
 print(classification_report(y_test, y_pred))
