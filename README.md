@@ -64,3 +64,5 @@ The tuned Gaussian Naive Bayes model is evaluated on the test set, yielding an a
 
 Conclusion
 This project showcases the efficacy of machine learning in heart disease prediction. By leveraging patient data and employing advanced algorithms, healthcare professionals can enhance diagnostic accuracy and improve patient outcomes in cardiovascular health
+
+For code details please refer to the [text](heart_different_models_predict.py)
