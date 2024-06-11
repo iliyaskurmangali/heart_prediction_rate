@@ -1,7 +1,7 @@
 Heart Disease Prediction System
 
 Introduction
-![alt text](image-1.png)
+![alt text](data/image-1.png)
 
 The CardioHealth Risk Assessment Dataset provides a comprehensive collection of medical and demographic data, facilitating the development and validation of machine learning models for heart disease prediction. This project aims to leverage various classification algorithms to accurately predict the presence of heart disease based on patient attributes and health indicators.
 
@@ -61,7 +61,7 @@ Hyperparameter tuning is conducted on the Gaussian Naive Bayes model using GridS
 
 Final Evaluation
 The tuned Gaussian Naive Bayes model is evaluated on the test set, yielding an accuracy of 93%. A classification report showcasing precision, recall, and F1-score for each class is generated.
-![alt text](image.png)
+![alt text](data/image.png)
 
 Conclusion
 This project showcases the efficacy of machine learning in heart disease prediction. By leveraging patient data and employing advanced algorithms, healthcare professionals can enhance diagnostic accuracy and improve patient outcomes in cardiovascular health

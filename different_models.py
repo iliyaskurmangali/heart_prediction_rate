@@ -17,7 +17,7 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import GridSearchCV
 
 # Load the dataset
-df = pd.read_csv('Heart_Disease_Prediction.csv')
+df = pd.read_csv('data/Heart_Disease_Prediction.csv')
 
 # Defining the features and the target
 X = df.drop(columns='Heart Disease')
