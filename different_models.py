@@ -100,3 +100,10 @@ from sklearn.metrics import classification_report
 
 y_pred = best_model.predict(X_test)
 print(classification_report(y_test, y_pred))
+
+
+
+import joblib
+# Save the preprocessor and the best model
+joblib.dump(preprocessor, 'preprocessor.joblib')
+joblib.dump(best_model, 'best_model.joblib')
